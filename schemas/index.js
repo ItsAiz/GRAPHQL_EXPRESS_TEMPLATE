@@ -1,9 +1,11 @@
-const baseSchema = require("./base");
+const { gql } = require("graphql-tag");
+
 const authSchema = require("./auth");
 const userSchema = require("./user");
 
-module.exports = {
-    baseSchema,
-    authSchema,
-    userSchema
-};
+const baseSchema = gql`
+  type Query
+  type Mutation
+`;
+
+module.exports = [baseSchema, userSchema, authSchema];
