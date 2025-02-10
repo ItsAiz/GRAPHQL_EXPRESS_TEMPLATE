@@ -2,8 +2,8 @@ const { gql } = require("graphql-tag");
 
 const authSchema = gql`
   type AuthPayload {
-    token: String!
-    user: User!
+    token: String
+    user: User
   }
 
   extend type Mutation {

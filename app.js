@@ -14,7 +14,7 @@ const app = express();
 const startApolloServer = async () => {
     const apolloServer = new ApolloServer({
         introspection: true,
-        typeDefs: mergeTypeDefs([schemas.baseSchema, schemas.authSchema, schemas.userSchema]),
+        typeDefs: mergeTypeDefs(schemas),
         resolvers,
     });
     await apolloServer.start();

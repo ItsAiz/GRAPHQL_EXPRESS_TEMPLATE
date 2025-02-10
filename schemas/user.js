@@ -2,7 +2,7 @@ const { gql } = require("graphql-tag");
 
 const userSchema = gql`
   type User {
-    id: ID!
+    id: ID
     name: String!
     email: String!
   }
