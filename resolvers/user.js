@@ -1,19 +1,32 @@
-const { readUsers } = require("../utils/fileHandler");
+const log = require('../utils/logger');
+const { readUsers } = require('../utils/fileHandler');
+const { validateToken } = require('../utils/session');
 
 const userResolvers = {
   Query: {
-    me: (_, __, { user }) => {
-      if (!user) throw new Error("Not authenticated");
-      
+    getUser: (_, { id }, { req }) => {
+      if (!validateToken(req)) {
+        log.error('[getUser] Unauthorized access to this API');
+        return { success: false, message: 'Unauthorized access to this API' };
+      }
       const users = readUsers();
-      return users.find((u) => u.id === user.id);
+      const user = users.find((user) => user.id === id);
+      if (!user) {
+        return { success: false, message: `User with ID ${id} not found` };
+      }
+      return { success: true, message: 'User found', user };
     },
 
-    getUser: (_, { id }) => {
+    getUsers: (_, __, { req }) => {
+      if (!validateToken(req)) {
+        log.error('[getUsers] Unauthorized access to this API');
+        return { success: false, total: 0 };
+      }
       const users = readUsers();
-      return users.find((user) => user.id === id) || null;
+      return { success: true, users };
     },
   },
 };
+
 
 module.exports = userResolvers;

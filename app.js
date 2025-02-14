@@ -13,7 +13,7 @@ const app = express();
 
 const startApolloServer = async () => {
     const apolloServer = new ApolloServer({
-        introspection: true,
+        introspection: process.env.NODE_ENV !== 'PROD',
         typeDefs: mergeTypeDefs(schemas),
         resolvers,
     });
@@ -23,7 +23,9 @@ const startApolloServer = async () => {
     app.use(morgan('tiny'));
     app.use(cors(corsConfig()));
 
-    app.use('/graphql', expressMiddleware(apolloServer));
+    app.use('/graphql', expressMiddleware(apolloServer, {
+        context: ({ req }) => ({ req })
+    }));
     return app;
 };
 
