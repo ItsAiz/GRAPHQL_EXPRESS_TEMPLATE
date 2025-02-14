@@ -13,7 +13,7 @@ const app = express();
 
 const startApolloServer = async () => {
     const apolloServer = new ApolloServer({
-        introspection: true,
+        introspection: process.env.NODE_ENV !== 'PROD',
         typeDefs: mergeTypeDefs(schemas),
         resolvers,
     });
