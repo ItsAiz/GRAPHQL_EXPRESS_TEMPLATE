@@ -23,7 +23,9 @@ const startApolloServer = async () => {
     app.use(morgan('tiny'));
     app.use(cors(corsConfig()));
 
-    app.use('/graphql', expressMiddleware(apolloServer));
+    app.use('/graphql', expressMiddleware(apolloServer, {
+        context: ({ req }) => ({ req })
+    }));
     return app;
 };
 

@@ -1,4 +1,4 @@
-const { gql } = require("graphql-tag");
+const { gql } = require('graphql-tag');
 
 const userSchema = gql`
   type User {
@@ -8,8 +8,8 @@ const userSchema = gql`
   }
 
   extend type Query {
-    me: User
-    getUser(id: ID!): User
+    getUser(id: ID!): User!
+    getUsers: [User!]!
   }
 `;
 

@@ -1,5 +1,5 @@
-const authResolvers = require("./auth");
-const userResolvers = require("./user");
+const authResolvers = require('./auth');
+const userResolvers = require('./user');
 
 const resolvers = {
   Query: {
