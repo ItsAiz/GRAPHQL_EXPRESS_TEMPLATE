@@ -6,9 +6,15 @@ const authSchema = gql`
     user: User
   }
 
+  type AuthResponse {
+    success: Boolean!
+    message: String!
+    data: AuthPayload
+  }
+
   extend type Mutation {
-    login(email: String!, password: String!): AuthPayload!
-    register(name: String!, email: String!, password: String!): AuthPayload!
+    login(email: String!, password: String!): AuthResponse!
+    register(name: String!, email: String!, password: String!): AuthResponse!
   }
 `;
 

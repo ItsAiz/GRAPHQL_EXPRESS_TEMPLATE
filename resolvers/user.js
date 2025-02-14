@@ -7,24 +7,26 @@ const userResolvers = {
     getUser: (_, { id }, { req }) => {
       if (!validateToken(req)) {
         log.error('[getUser] Unauthorized access to this API');
-        throw new Error('Unauthorized access to this API');
+        return { success: false, message: 'Unauthorized access to this API' };
       }
       const users = readUsers();
       const user = users.find((user) => user.id === id);
       if (!user) {
-        throw new Error(`User with ID ${id} not found`);
+        return { success: false, message: `User with ID ${id} not found` };
       }
-      return user;
+      return { success: true, message: 'User found', user };
     },
 
     getUsers: (_, __, { req }) => {
       if (!validateToken(req)) {
         log.error('[getUsers] Unauthorized access to this API');
-        throw new Error('Unauthorized access to this API');
+        return { success: false, total: 0 };
       }
-      return readUsers();
+      const users = readUsers();
+      return { success: true, users };
     },
   },
 };
+
 
 module.exports = userResolvers;
