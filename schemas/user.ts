@@ -1,4 +1,4 @@
-const { gql } = require('graphql-tag');
+import gql from 'graphql-tag';
 
 const userSchema = gql`
   type User {
@@ -24,4 +24,4 @@ const userSchema = gql`
   }
 `;
 
-module.exports = userSchema;
+export default userSchema;

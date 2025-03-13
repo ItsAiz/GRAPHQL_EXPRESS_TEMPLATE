@@ -1,19 +1,22 @@
-require('dotenv').config();
-const { format, createLogger, transports } = require('winston');
-const { timestamp, combine, errors, json, printf } = format;
+import dotenv from 'dotenv';
+import { format, createLogger, transports, LoggerOptions } from 'winston';
 
-let baseConfig;
+dotenv.config();
 
-const logFormat = printf(({ level, message, label, timestamp }) => {
+const { timestamp, combine, errors, json, printf, colorize } = format;
+
+const logFormat = printf(({ level, message, timestamp }) => {
   return `${timestamp} ${level}: ${message}`;
 });
 
-const env = process.env.ENV || process.env.GCP_ENV || process.env.NODE_ENV || 'Unknown';
+const env: string = process.env.ENV || process.env.GCP_ENV || process.env.NODE_ENV || 'Unknown';
 
-if (['Unknown'].includes(env)) {
+let baseConfig: LoggerOptions;
+
+if (env === 'Unknown') {
   baseConfig = {
     format: combine(
-      format.colorize(),
+      colorize(),
       timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
       errors({ stack: true }),
       logFormat
@@ -30,4 +33,4 @@ if (['Unknown'].includes(env)) {
   };
 }
 
-module.exports = createLogger(baseConfig);
+export const logger = createLogger(baseConfig);
