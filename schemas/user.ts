@@ -7,15 +7,24 @@ const userSchema = gql`
     email: String!
   }
 
+  type UserData {
+    user: User
+  }
+
+  type UsersData {
+    users: [User]
+  }
+
   type UserResponse {
     success: Boolean!
-    message: String
-    user: User
+    message: String!
+    data: UserData
   }
 
   type UsersResponse {
     success: Boolean!
-    users: [User!]!
+    message: String!
+    data: UsersData
   }
 
   extend type Query {

@@ -3,7 +3,6 @@ import gql from 'graphql-tag';
 const authSchema = gql`
   type AuthPayload {
     token: String
-    user: User
   }
 
   type AuthResponse {

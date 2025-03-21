@@ -4,15 +4,7 @@ import { logger as log } from '../utils/logger';
 import { generateToken } from '../utils/session';
 import { readUsers, writeUsers } from '../utils/fileHandler';
 import { User } from '../types/userType';
-
-interface AuthResponse {
-  success: boolean;
-  message: string;
-  data: {
-    token?: string;
-    user?: User;
-  } | null;
-}
+import { AuthResponse } from '../types/authType';
 
 const authResolvers = {
   Mutation: {
@@ -43,7 +35,7 @@ const authResolvers = {
       return {
         success: true,
         message: 'User registered successfully',
-        data: { token: generateToken(user), user },
+        data: { token: generateToken(user) },
       };
     },
 
@@ -74,7 +66,7 @@ const authResolvers = {
       return {
         success: true,
         message: 'Login successful',
-        data: { token: generateToken(user), user },
+        data: { token: generateToken(user) },
       };
     },
   },
