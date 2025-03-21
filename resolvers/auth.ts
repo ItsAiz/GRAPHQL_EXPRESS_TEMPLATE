@@ -3,8 +3,9 @@ import bcrypt from 'bcryptjs';
 import { logger as log } from '../utils/logger';
 import { generateToken } from '../utils/session';
 import { readUsers, writeUsers } from '../utils/fileHandler';
-import { User } from '../types/userType';
+import { User, UserRole } from '../types/userType';
 import { AuthResponse } from '../types/authType';
+import systemRoutes from '../user-routes.json';
 
 const authResolvers = {
   Mutation: {
@@ -26,7 +27,13 @@ const authResolvers = {
       }
 
       const hashedPassword = await bcrypt.hash(password, 10);
-      const user: User = { id: uuidv4(), name, email, password: hashedPassword };
+      const user: User = {
+        id: uuidv4(),
+        name,
+        email,
+        password: hashedPassword,
+        rol: 'basic',
+      };
 
       users.push(user);
       writeUsers(users);
@@ -35,7 +42,7 @@ const authResolvers = {
       return {
         success: true,
         message: 'User registered successfully',
-        data: { token: generateToken(user) },
+        data: { token: generateToken(user), routes: systemRoutes[user.rol as UserRole] },
       };
     },
 
@@ -66,7 +73,7 @@ const authResolvers = {
       return {
         success: true,
         message: 'Login successful',
-        data: { token: generateToken(user) },
+        data: { token: generateToken(user), routes: systemRoutes[user.rol as UserRole] },
       };
     },
   },

@@ -1,3 +1,4 @@
+export type UserRole = 'basic' | 'admin';
 export interface UserBasic {
     id: string;
     email: string;
@@ -6,6 +7,7 @@ export interface UserBasic {
 export interface User extends UserBasic {
     name: string,
     password: string,
+    rol: string,
 };
 
 export interface UserResponse {
