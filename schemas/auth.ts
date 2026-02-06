@@ -1,9 +1,9 @@
-const { gql } = require('graphql-tag');
+import gql from 'graphql-tag';
 
 const authSchema = gql`
   type AuthPayload {
     token: String
-    user: User
+    routes: [String!]
   }
 
   type AuthResponse {
@@ -18,4 +18,4 @@ const authSchema = gql`
   }
 `;
 
-module.exports = authSchema;
+export default authSchema;

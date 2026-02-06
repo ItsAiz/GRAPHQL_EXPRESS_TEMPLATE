@@ -1,16 +1,18 @@
-const jwt = require('jsonwebtoken');
-const log = require('./logger');
+import jwt from 'jsonwebtoken';
+import { Request } from 'express';
+import { logger as log } from './logger';
+import { UserBasic } from '../types/userType';
 
-const generateToken = (user) => {
+export const generateToken = (user: UserBasic) => {
     log.info('[generateToken]');
     return jwt.sign(
-        { id: user.id, email: user.email },
-        process.env.JWT_SECRET,
-        { expiresIn: '1h' }
+      { id: user.id, email: user.email },
+      process.env.JWT_SECRET as string,
+      { expiresIn: '1h' }
     );
 };
 
-const extractToken = (req) => {
+export const extractToken = (req: Request) => {
     if (!req || !req.headers || !req.headers.authorization) {
         log.error('[extractToken] Missing authorization header');
         return '';
@@ -23,11 +25,9 @@ const extractToken = (req) => {
     return authHeader.split(' ')[1];
 };
 
-
-const validateToken = (req) => {
+export const validateToken = (req: Request) => {
     const token = extractToken(req);
     if (!token) return false;
-    return jwt.verify(token, process.env.JWT_SECRET); 
+    return jwt.verify(token, String(process.env.JWT_SECRET)); 
 };
 
-module.exports = { generateToken, validateToken };

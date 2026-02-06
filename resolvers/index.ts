@@ -1,5 +1,5 @@
-const authResolvers = require('./auth');
-const userResolvers = require('./user');
+import authResolvers from './auth';
+import userResolvers from './user';
 
 const resolvers = {
   Query: {
@@ -10,4 +10,4 @@ const resolvers = {
   },
 };
 
-module.exports = resolvers;
+export default resolvers;

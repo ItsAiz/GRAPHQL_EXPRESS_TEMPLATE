@@ -1,4 +1,5 @@
-const log = require('./logger');
+import { logger as log } from './logger';
+
 const {
   ORIGINS,
 } = process.env;
@@ -17,4 +18,4 @@ const corsConfig = () => {
   }
 };
 
-module.exports = corsConfig;
+export default corsConfig;

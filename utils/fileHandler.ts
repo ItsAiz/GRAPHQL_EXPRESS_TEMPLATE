@@ -1,10 +1,11 @@
-const fs = require('fs');
-const path = require('path');
-const log = require('../utils/logger');
-
+import fs from 'fs';
+import path from 'path';
+import { logger as log } from './logger';
+import { User } from '../types/userType';
+ 
 const filePath = path.join(__dirname, '../temp-users.json');
 
-const readUsers = () => {
+export const readUsers = () => {
   try {
     if (!fs.existsSync(filePath)) {
       log.warn('[fileHandler][readUsers] File not found, initializing empty user list.');
@@ -13,12 +14,12 @@ const readUsers = () => {
 
     const data = fs.readFileSync(filePath, 'utf8');
     const parsedData = JSON.parse(data);
+    console.log(parsedData)
 
     if (!parsedData.users || !Array.isArray(parsedData.users)) {
       log.error('[fileHandler][readUsers] Invalid file structure, resetting users.');
       return [];
     }
-
     log.info('[fileHandler][readUsers] Users successfully loaded.');
     return parsedData.users;
   } catch (error) {
@@ -27,7 +28,7 @@ const readUsers = () => {
   }
 };
 
-const writeUsers = (users) => {
+export const writeUsers = (users: Array<User>) => {
   try {
     fs.writeFileSync(filePath, JSON.stringify({ users }, null, 2));
     log.info(`[fileHandler][writeUsers] Successfully wrote ${users.length} users to file.`);
@@ -35,5 +36,3 @@ const writeUsers = (users) => {
     log.error('[fileHandler][writeUsers] Error writing file:', error);
   }
 };
-
-module.exports = { readUsers, writeUsers };

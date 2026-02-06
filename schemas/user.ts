@@ -1,4 +1,4 @@
-const { gql } = require('graphql-tag');
+import gql from 'graphql-tag';
 
 const userSchema = gql`
   type User {
@@ -7,15 +7,24 @@ const userSchema = gql`
     email: String!
   }
 
+  type UserData {
+    user: User
+  }
+
+  type UsersData {
+    users: [User]
+  }
+
   type UserResponse {
     success: Boolean!
-    message: String
-    user: User
+    message: String!
+    data: UserData
   }
 
   type UsersResponse {
     success: Boolean!
-    users: [User!]!
+    message: String!
+    data: UsersData
   }
 
   extend type Query {
@@ -24,4 +33,4 @@ const userSchema = gql`
   }
 `;
 
-module.exports = userSchema;
+export default userSchema;
